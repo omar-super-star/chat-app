@@ -1,0 +1,44 @@
+<html>
+<head>
+<body>
+  <div>
+    <input type="text" name="username" id="username" placeholder="enter your user name"></input>
+    <input type="text" name="password" id="password" placeholder="enter your password"></input>
+    <input type="text" name="passwordagain" id="checkpassword" placeholder="enter your password again"></input>
+    <input type="submit" name="submit" id="send"></input>
+    <p id="error"></p>
+  </div>
+    <script>
+    const username=document.getElementById("username")
+    const password=document.getElementById("password")
+    const passwordagain=document.getElementById("checkpassword")
+    const send=document.getElementById("send")
+    const check_error=document.getElementById("error")
+    send.onclick=()=>{
+      if (passwordagain.value !== password.value){
+        check_error.innerHTML="write the pass word again"
+      }
+      else{
+      data={
+        name:username.value,
+        password:password.value,
+      };
+      fetch("/login",{
+        method:"POST",
+        headers:{
+            "Content-Type":"appliction/json",
+        },
+        body:JSON.stringify(data)
+      }).then((response)=>{
+          response.json().then((res) => { if (res["error"] !== "not error"){
+            check_error.innerHTML=res["error"]
+          }else{
+            window.location="/sign"
+          }})
+        })
+    }
+  }
+    </script>
+</body>
+</head>
+</html>

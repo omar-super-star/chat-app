@@ -1,0 +1,37 @@
+<html>
+<head>
+<body>
+  <div>
+    <input type="text" name="name" value="" id="username"></input>
+    <input type="text" name="password" value="" id="password"></input>
+    <input type="submit" id="send"></input>
+  </div>
+  <p id="error"></p>
+    <script>
+const nameele=document.getElementById("username")
+const passwordele=document.getElementById("password")
+const send=document.getElementById("send")
+const check_error=document.getElementById("error")
+send.onclick=()=>{
+  data={
+    name:nameele.value,
+    password:passwordele.value
+  };
+  fetch("/sign",{
+    method:"POST",
+    headers:{
+        "Content-Type":"appliction/json",
+    },
+    body:JSON.stringify(data)
+  }).then((response)=>{
+      response.json().then((res) => { if (res["error"] !== "not error"){
+        check_error.innerHTML=res["error"]
+      }else{
+        window.location="/contacts"
+      }})
+    })
+}
+    </script>
+</body>
+</head>
+</html>

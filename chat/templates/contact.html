@@ -1,0 +1,44 @@
+<html>
+<head>
+<body>
+  <input type="text" id="search"></input>
+  <input type="submit" id=submit value="search"></input>
+  <div id="search_results">
+    <p id="serch_result"><a id="url_search"></a></p>
+  </div>
+  <div>
+    {% for contacts in chats %}
+      <p><a href="/chat/{{contacts}}+{{space}}+{{person}}">{{contacts}}</a></p>
+  </div>
+    <script>
+    const search_place=document.getElementById("search_results")
+    const search=document.getElementById("submit")
+    const  name_search=document.getElementById("search")
+    const search_result=document.getElementById("search_result")
+    const search_url=document.getElementById("url_search")
+    search.onclick=()=>{
+      const data={
+        name:username.value,
+      };
+      fetch("/contacts",{
+        method:"POST",
+        headers:{
+            "Content-Type":"appliction/json",
+        },
+        body:JSON.stringify(data)
+      })
+      .then((response)=>{
+          response.json()
+          .then((res) => {
+              search=res["outlist"]
+              if (search !=="name is not found "){
+                search_url.innerHTML=search;
+                search_url.href=`/chat/${search}`;
+              }else{search_url.innerHTML=search};
+          })
+        })
+    }
+  </script>
+</body>
+</head>
+</html>
